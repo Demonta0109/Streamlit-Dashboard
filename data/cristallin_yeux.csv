@@ -10,7 +10,7 @@ France;2015;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.101;0.510;0.
 France;2015;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.744;4.110;6.250;181;62;97;21;1;0;0;0
 Germany;2021;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.653;0.420;1.460;1548;1102;269;137;33;5;1;1
 Germany;2021;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.538;0.370;1.330;1462;1058;259;114;24;5;1;1
-Germany;2021;;Interventional radiology;Hle (equ. dose to lens of eye);0.387;0.460;1.390;845;567;178;75;19;5;0;1
+Germany;2021;INTERVENTIONAL RADIOLOGY;;Hle (equ. dose to lens of eye);0.387;0.460;1.390;845;567;178;75;19;5;0;1
 Germany;2021;NUCLEAR FIELD;;Hle (equ. dose to lens of eye);0.012;2.000;3.000;6;2;0;3;1;0;0;0
 Germany;2020;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.502;0.460;3.420;1083;936;;117;19;7;2;2
 Germany;2020;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.445;0.430;3.230;1042;904;;110;19;7;2;
@@ -34,30 +34,30 @@ Germany;2011;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.238;1.630;6
 Germany;2011;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.238;1.640;6.610;145;109;0;21;6;5;1;3
 Greece;2018;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.424;6.230;11.770;68;32;7;12;5;3;0;9
 Greece;2018;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.421;6.580;12.040;64;29;7;11;5;3;0;9
-Greece;2018;;Interventional radiology;Hle (equ. dose to lens of eye);0.393;6.560;12.300;60;28;6;11;4;3;0;8
+Greece;2018;INTERVENTIONAL RADIOLOGY;;Hle (equ. dose to lens of eye);0.393;6.560;12.300;60;28;6;11;4;3;0;8
 Greece;2017;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.320;4.850;8.420;66;28;5;14;9;5;2;3
 Greece;2017;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.320;4.850;8.420;66;28;5;14;9;5;2;3
-Greece;2017;;Interventional radiology;Hle (equ. dose to lens of eye);0.315;4.840;8.510;65;28;5;14;8;5;2;3
+Greece;2017;INTERVENTIONAL RADIOLOGY;;Hle (equ. dose to lens of eye);0.315;4.840;8.510;65;28;5;14;8;5;2;3
 Greece;2016;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.253;4.440;6.180;57;16;12;12;8;4;3;2
 Greece;2015;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.152;2.140;2.660;71;14;23;27;4;3;0;0
 Lithuania;2022;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.427;1.440;2.510;296;126;80;64;21;5;0;0
 Lithuania;2022;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.335;1.370;2.460;244;108;68;46;19;3;0;0
-Lithuania;2022;;Interventional radiology;Hle (equ. dose to lens of eye);0.305;1.980;2.500;154;32;60;42;17;3;0;0
+Lithuania;2022;INTERVENTIONAL RADIOLOGY;;Hle (equ. dose to lens of eye);0.305;1.980;2.500;154;32;60;42;17;3;0;0
 Lithuania;2022;NUCLEAR FIELD;;Hle (equ. dose to lens of eye);0.093;1.600;2.390;58;19;16;19;2;2;0;0
 Lithuania;2021;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.419;1.680;2.480;249;80;85;57;19;5;2;1
 Lithuania;2021;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.355;2.380;2.930;149;28;55;42;16;5;2;1
-Lithuania;2021;;Interventional radiology;Hle (equ. dose to lens of eye);0.319;2.470;2.980;129;22;49;37;14;4;2;1
+Lithuania;2021;INTERVENTIONAL RADIOLOGY;;Hle (equ. dose to lens of eye);0.319;2.470;2.980;129;22;49;37;14;4;2;1
 Lithuania;2021;NUCLEAR FIELD;;Hle (equ. dose to lens of eye);0.064;0.640;1.330;100;52;30;15;3;0;0;0
 Lithuania;2019;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.343;1.440;2.160;239;80;74;64;18;3;0;0
 Lithuania;2019;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.343;1.440;2.160;239;80;74;64;18;3;0;0
-Lithuania;2019;;Interventional radiology;Hle (equ. dose to lens of eye);0.287;2.060;2.260;139;12;57;51;17;2;0;0
+Lithuania;2019;INTERVENTIONAL RADIOLOGY;;Hle (equ. dose to lens of eye);0.287;2.060;2.260;139;12;57;51;17;2;0;0
 Lithuania;2019;NUCLEAR FIELD;;Hle (equ. dose to lens of eye);0.004;0.220;0.570;18;11;7;0;0;0;0;
 Lithuania;2018;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.288;1.600;2.270;180;53;52;59;15;1;0;0
 Lithuania;2018;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.288;1.600;2.270;180;53;52;59;15;1;0;0
-Lithuania;2018;;Interventional radiology;Hle (equ. dose to lens of eye);0.269;2.190;2.380;123;10;41;56;15;1;0;0
+Lithuania;2018;INTERVENTIONAL RADIOLOGY;;Hle (equ. dose to lens of eye);0.269;2.190;2.380;123;10;41;56;15;1;0;0
 Lithuania;2017;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.371;2.030;2.480;183;33;55;69;24;2;0;0
 Lithuania;2017;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.371;2.030;2.480;183;33;55;69;24;2;0;0
-Lithuania;2017;;Interventional radiology;Hle (equ. dose to lens of eye);0.371;2.030;2.480;183;33;55;69;24;2;0;0
+Lithuania;2017;INTERVENTIONAL RADIOLOGY;;Hle (equ. dose to lens of eye);0.371;2.030;2.480;183;33;55;69;24;2;0;0
 Lithuania;2016;ALL MONITORED WORKERS;;Hle (equ. dose to lens of eye);0.368;3.760;3.840;98;2;23;46;21;3;3;0
 Lithuania;2016;MEDICAL FIELD;;Hle (equ. dose to lens of eye);0.368;3.760;3.840;98;2;23;46;21;3;3;0
-Lithuania;2016;;Interventional radiology;Hle (equ. dose to lens of eye);0.286;3.910;3.970;73;1;18;32;17;3;2;0
+Lithuania;2016;INTERVENTIONAL RADIOLOGY;;Hle (equ. dose to lens of eye);0.286;3.910;3.970;73;1;18;32;17;3;2;0

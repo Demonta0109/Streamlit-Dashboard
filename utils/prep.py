@@ -5,25 +5,25 @@ import numpy as np
 
 def make_tables(df_raw):
     """
-    Prépare les données brutes de dosimétrie pour la visualisation.
-    
+    Prepare raw dosimetry data for visualization.
+
     Parameters:
     -----------
     df_raw : pd.DataFrame
-        DataFrame brut contenant les données de dosimétrie
-    
+        Raw DataFrame containing dosimetry records
+
     Returns:
     --------
-    dict : Dictionnaire contenant les tableaux préparés
-        - 'timeseries': Évolution de la dose collective par année
-        - 'by_region': Doses par pays
-        - 'by_sector': Doses par secteur
-        - 'by_country_year': Données détaillées par pays et année
+    dict : Dictionary with prepared tables
+        - 'timeseries': Collective dose time series by year
+        - 'by_region': Aggregated doses by country
+        - 'by_sector': Aggregated doses by sector
+        - 'by_country_year': Detailed country-year table
     """
     
     tables = {}
     
-    # 1. Série temporelle: évolution de la dose collective par année
+    # 1. Time series: collective dose aggregated by year
     timeseries = df_raw.groupby('year').agg({
         'collective_dose_total': 'sum',
         'total_workers_number': 'sum',
@@ -32,7 +32,7 @@ def make_tables(df_raw):
     timeseries = timeseries.sort_values('year')
     tables['timeseries'] = timeseries
     
-    # 2. Agrégation par pays (country)
+    # 2. Aggregation by country
     by_country = df_raw.groupby('country').agg({
         'collective_dose_total': 'sum',
         'average_dose_monitored': 'mean',
@@ -41,7 +41,7 @@ def make_tables(df_raw):
     }).reset_index().sort_values('collective_dose_total', ascending=False)
     tables['by_region'] = by_country  # Renommé pour correspondre à app.py
     
-    # 3. Agrégation par secteur (sector)
+    # 3. Aggregation by sector
     by_sector = df_raw[df_raw['sector'] != 'ALL MONITORED WORKERS'].groupby('sector').agg({
         'collective_dose_total': 'sum',
         'average_dose_monitored': 'mean',
@@ -49,7 +49,7 @@ def make_tables(df_raw):
     }).reset_index().sort_values('collective_dose_total', ascending=False)
     tables['by_sector'] = by_sector
     
-    # 4. Données détaillées par pays et année pour visualisations avancées
+    # 4. Detailed country-year table for advanced visualizations
     by_country_year = df_raw[df_raw['sector'] == 'ALL MONITORED WORKERS'].groupby(['country', 'year']).agg({
         'collective_dose_total': 'sum',
         'average_dose_monitored': 'mean',
@@ -57,8 +57,8 @@ def make_tables(df_raw):
     }).reset_index().sort_values(['country', 'year'])
     tables['by_country_year'] = by_country_year
     
-    # 5. Données géographiques (approximation avec dummy coordinates pour carte)
-    # Ajouter des coordonnées GPS approximatives pour chaque pays
+    # 5. Geographic data (approximation using dummy/centroid coordinates for mapping)
+    # Add approximate GPS coordinates for each country
     country_coords = {
         'France': (46.2276, 2.2137),
         'Germany': (51.1657, 10.4515),

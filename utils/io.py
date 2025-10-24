@@ -6,34 +6,34 @@ import os
 
 def load_data():
     """
-    Charge les données de dosimétrie depuis le fichier CSV.
-    Le fichier utilise ';' comme séparateur (format CSV français).
-    
+    Load dosimetry data from the CSV file.
+    The file uses ';' as separator (French CSV format).
+
     Returns:
     --------
-    pd.DataFrame : DataFrame contenant les données brutes de dosimétrie
+    pd.DataFrame : DataFrame containing the raw dosimetry data
     """
     path = "data/cristallin_yeux.csv"
     
     if not os.path.exists(path):
-        raise FileNotFoundError(f"Le fichier {path} n'existe pas. Assurez-vous que le fichier est présent.")
-    
-    # Charger le CSV avec ';' comme séparateur
+        raise FileNotFoundError(f"File {path} does not exist. Please ensure the file is present.")
+
+    # Read CSV using ';' as separator
     df = pd.read_csv(path, sep=';')
-    
-    # Nettoyer les noms de colonnes (enlever les espaces inutiles)
+
+    # Clean column names (strip whitespace)
     df.columns = df.columns.str.strip()
-    
-    # Convertir les colonnes numériques en float (remplacer les ',' par '.')
+
+    # Convert object columns that look numeric into floats (replace ',' with '.')
     numeric_cols = df.select_dtypes(include=['object']).columns
     for col in numeric_cols:
         try:
             df[col] = df[col].astype(str).str.replace(',', '.').astype(float)
         except (ValueError, TypeError):
-            pass  # Garder les colonnes non numériques
-    
-    # Convertir la colonne year en entier
+            pass  # keep non-numeric columns as-is
+
+    # Convert 'year' column to integer
     if 'year' in df.columns:
         df['year'] = df['year'].astype(int)
-    
+
     return df
