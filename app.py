@@ -3,8 +3,11 @@ import pandas as pd
 from utils.io import load_data
 from utils.prep import make_tables
 from utils.viz import line_chart, bar_chart, map_chart
-from sections.intro import intro_section
-from sections.overview import overview_section
+from sections.intro import show_intro
+from sections.overview import show_overview
+from sections.deep_dives import show_deep_dives
+from sections.conclusions import show_conclusions
+
 
 st.set_page_config(page_title="Data Storytelling Dashboard - Dosimetry", layout="wide")
 
@@ -18,9 +21,6 @@ st.title(":bar_chart: Dosimetry - Radiation Exposure")
 st.caption("Source: Exposition professionnelle aux rayonnements ionisants en Europe - DataGouv.fr - Licence Ouverte")
 
 raw, tables = get_data()
-
-# === OVERVIEW SECTION ===
-overview_section()
 
 # === SIDEBAR - FILTERS ===
 with st.sidebar:
@@ -46,8 +46,17 @@ with st.sidebar:
         help="Select the period to analyse"
     )
     
-    # Sector filter (allow an explicit 'All' option)
-    sectors = ['All', 'ALL MONITORED WORKERS', 'MEDICAL FIELD', 'NUCLEAR FIELD', 'INTERVENTIONAL RADIOLOGY']
+    # Sector filter (dynamic list, keep 'All' as first option)
+    sectors_from_data = raw['sector'].dropna().unique().tolist()
+    # Preferred order defined by the user; any other sectors from data will be appended
+    preferred_order = [
+        'ALL MONITORED WORKERS', 'MEDICAL FIELD', 'INDUSTRY', 'NUCLEAR FIELD',
+        'RESEARCH AND EDUCATION', 'NATURAL SOURCES', 'TRANSPORT', 'OTHER FIELDS'
+    ]
+    ordered = [s for s in preferred_order if s in sectors_from_data]
+    others = [s for s in sectors_from_data if s not in preferred_order]
+    sectors = ['All'] + ordered + sorted(others)
+
     selected_sector = st.selectbox(
         "Sector",
         sectors,
@@ -57,9 +66,8 @@ with st.sidebar:
     
     st.markdown("---")
     st.markdown("### :pushpin: About")
-    st.info("This dashboard visualises radiation exposure data for the eye lens across countries and sectors.")
-
-
+    st.info("This data set has **3082** rows and 7 columns, covering dosimetry records from various countries and sectors over multiple years.")
+    
 # === APPLY FILTERS ===
 mask = (
     (raw['country'].isin(selected_countries)) &
@@ -71,87 +79,17 @@ if selected_sector != 'All':
 
 filtered_data = raw[mask].copy()
 
-# === KPI ROW ===
-st.markdown("### :chart_with_upwards_trend: Key indicators")
-c1, c2, c3 = st.columns(3)
+# === INTRO SECTION ===
+show_intro()
 
-with c1:
-    total_dose = filtered_data['collective_dose_total'].sum()
-    st.metric(
-        ":syringe: Total collective dose",
-        f"{total_dose:.3f} Sv",
-        help="Sum of collective doses for monitored workers"
-    )
+# === OVERVIEW SECTION ===
+show_overview(filtered_data, raw)
 
-with c2:
-    avg_dose = filtered_data['average_dose_monitored'].mean()
-    st.metric(
-        ":warning: Average monitored dose",
-        f"{avg_dose:.3f} Sv",
-        help="Average dose among monitored workers"
-    )
+# === DEEP DIVE SECTION ===
+show_deep_dives(filtered_data)
 
-with c3:
-    total_workers = filtered_data['total_workers_number'].sum()
-    st.metric(
-        ":busts_in_silhouette: Exposed workers",
-        f"{int(total_workers):,}",
-        help="Total number of monitored workers",
-        delta=f"{((total_workers / raw['total_workers_number'].sum()) * 100):.1f}% of total"
-    )
-
-st.markdown("---")
-
-
-
-
-
-# === VISUALISATIONS ===
-
-# 1. Trends over time
-st.subheader(":calendar: Dose time series")
-# Use filtered_data directly (it already respects the 'All' selection)
-timeseries_filtered = filtered_data.groupby('year').agg({
-    'collective_dose_total': 'sum',
-    'average_dose_monitored': 'mean',
-    'total_workers_number': 'sum'
-}).reset_index().sort_values('year')
-
-if not timeseries_filtered.empty:
-    line_chart(timeseries_filtered)
-else:
-    st.warning(":x: No data for the selected period")
-
-st.markdown("---")
-
-# 2. Compare regions (countries)
-st.subheader(":globe_with_meridians: Comparison by country")
-# Use filtered_data directly (it already respects the 'All' selection)
-by_country_filtered = filtered_data.groupby('country').agg({
-    'collective_dose_total': 'sum',
-    'average_dose_monitored': 'mean',
-    'average_dose_exposed': 'mean',
-    'total_workers_number': 'sum'
-}).reset_index().sort_values('collective_dose_total', ascending=False)
-
-if not by_country_filtered.empty:
-    bar_chart(by_country_filtered)
-else:
-    st.warning(":x: No data for the selected period")
-
-st.markdown("---")
-
-# 3. Map view
-st.subheader(":world_map: Map view")
-# Use filtered_data directly (it already respects the 'All' selection)
-geo_filtered = filtered_data.copy()
-
-if not geo_filtered.empty:
-    map_chart(geo_filtered)
-else:
-    st.warning(":x: No data for the selected period")
-
-st.markdown("---")
+# === CONCLUSIONS SECTION ===
+show_conclusions(filtered_data, year_range, selected_countries, selected_sector)
 
 # === SECTIONS INFORMATIVES ===
 

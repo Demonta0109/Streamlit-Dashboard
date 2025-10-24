@@ -1,9 +1,7 @@
 """Country centroid coordinates used by the dashboard.
 
 This module centralises a mapping between common country names (as they
-appear in the CSV) and an approximate latitude / longitude centroid. Adding
-more countries here makes the map in `utils.viz` render for additional
-entries without duplicating the mapping in multiple files.
+appear in the CSV) and an approximate latitude / longitude centroid.
 """
 
 COUNTRY_COORDS = {
@@ -43,10 +41,6 @@ COUNTRY_COORDS = {
 
 def get_coord(country_name):
     """Return (lat, lon) for a country name, or (None, None) if unknown.
-
-    The function performs a direct lookup first and a fallback by trying a
-    few simple normalisations (strip, title case). This keeps the logic
-    centralised and easy to extend.
     """
     if country_name is None:
         return None, None
@@ -54,15 +48,4 @@ def get_coord(country_name):
     coord = COUNTRY_COORDS.get(country_name)
     if coord:
         return coord
-
-    # try some normalisations
-    name = str(country_name).strip()
-    coord = COUNTRY_COORDS.get(name.title())
-    if coord:
-        return coord
-
-    coord = COUNTRY_COORDS.get(name.replace('Republic of ', '').title())
-    if coord:
-        return coord
-
     return None, None

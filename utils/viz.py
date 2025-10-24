@@ -33,13 +33,11 @@ def line_chart(data):
     st.altair_chart(chart, use_container_width=True)
     
     # Afficher les statistiques
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     with col1:
         st.metric("Mean collective dose", f"{data['collective_dose_total'].mean():.3f} Sv")
     with col2:
         st.metric("Mean monitored dose", f"{data['average_dose_monitored'].mean():.3f} Sv")
-    with col3:
-        st.metric("Number of years", len(data))
 
 
 def bar_chart(data):
@@ -62,8 +60,13 @@ def bar_chart(data):
     # Créer un graphique avec Altair
     chart = alt.Chart(data).mark_bar(color='steelblue').encode(
         x=alt.X('region:N', title='Country'),
-        y=alt.Y('collective_dose_total:Q', title='Total collective dose (Sv)'),
-        tooltip=['region:N', 'collective_dose_total:Q', 'average_dose_monitored:Q', 'total_workers_number:Q']
+        y=alt.Y('average_dose_monitored:Q', title='Average monitored dose (Sv)'),
+        tooltip=[
+            alt.Tooltip('region:N', title='Country'),
+            alt.Tooltip('collective_dose_total:Q', format='.3f', title='Collective dose (Sv)'),
+            alt.Tooltip('average_dose_monitored:Q', format='.3f', title='Average dose (Sv)'),
+            alt.Tooltip('total_workers_number:Q', format='.0f', title='Workers')
+        ]
     ).properties(
         width=800,
         height=400
