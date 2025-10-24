@@ -1,36 +1,36 @@
 import streamlit as st
 
-def show_conclusions(filtered_data, year_range, selected_countries, selected_sector):
-    st.header("✅ Conclusions & Recommandations")
-    
+def show_resume(filtered_data, year_range, selected_countries, selected_sector):
+
     if filtered_data.empty:
-        st.warning("Aucune donnée à analyser pour cette conclusion.")
+        st.warning(":x: No data available to analyze for this conclusion.")
         return
 
     avg_dose = filtered_data['collective_dose_total'].mean()
     total_workers = int(filtered_data['total_workers_number'].sum())
 
-    st.subheader("📍 Principaux constats")
+    st.subheader("Key Findings")
     st.success(f"""
-    - Période analysée : **{year_range[0]} - {year_range[1]}**
-    - Pays analysés : **{', '.join(selected_countries)}**
-    - Secteur sélectionné : **{selected_sector}**
-    - Dose collective moyenne : **{avg_dose:.3f} Sv**
-    - Nombre total de travailleurs surveillés : **{total_workers:,}**
+    - Analysis period: **{year_range[0]} - {year_range[1]}**
+    - Countries analyzed: **{', '.join(selected_countries)}**
+    - Selected sector: **{selected_sector}**
+    - Average collective dose: **{avg_dose:.3f} Sv**
+    - Total number of monitored workers: **{total_workers:,}**
     """)
 
-    st.subheader("📌 Interprétation globale")
+def show_conclusions():
+    st.header("Conclusions & Recommendations")
+    
+    st.subheader("Overall interpretation")
     st.markdown("""
-    ✅ On observe une tendance globale à la baisse/stabilité/hausse selon les filtres choisis.  
-    ⚠️ Certains pays présentent encore des niveaux plus élevés, ce qui peut indiquer :  
-    - Des pratiques de radioprotection inégales,  
-    - Des différences de volume d’activité ou dispositifs de suivi,  
-    - Une possible sous-optimisation des protocoles médicaux.
+    A general trend of decrease/stability/increase is observed depending on the selected filters.  
+    Some countries still show higher levels, which may indicate:  
+    - Uneven radiation protection practices,  
+    - Differences in activity volumes or monitoring systems,  
+    - Possible sub-optimization of medical protocols.
 
-    ### 🚀 Recommandations potentielles
-    - Renforcer la formation à la radioprotection dans le secteur médical,
-    - Harmoniser les normes entre pays européens,
-    - Surveiller plus étroitement les zones à forte dose collective.
+    ### Potential recommendations for concerned countries:
+    - Strengthen radiation protection training in the medical sector,
+    - Harmonize standards across European countries,
+    - More closely monitor areas with high collective dose.
     """)
-
-    st.info("🔄 Pour approfondir, il serait intéressant d'ajouter une analyse par professions ou par modalité d’irradiation.")

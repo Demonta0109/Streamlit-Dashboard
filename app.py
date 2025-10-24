@@ -6,7 +6,7 @@ from utils.viz import line_chart, bar_chart, map_chart
 from sections.intro import show_intro
 from sections.overview import show_overview
 from sections.deep_dives import show_deep_dives
-from sections.conclusions import show_conclusions
+from sections.conclusions import show_resume, show_conclusions
 
 
 st.set_page_config(page_title="Data Storytelling Dashboard - Dosimetry", layout="wide")
@@ -67,7 +67,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### :pushpin: About")
     st.info("This data set has **3082** rows and 7 columns, covering dosimetry records from various countries and sectors over multiple years.")
-    
+
 # === APPLY FILTERS ===
 mask = (
     (raw['country'].isin(selected_countries)) &
@@ -89,31 +89,5 @@ show_overview(filtered_data, raw)
 show_deep_dives(filtered_data)
 
 # === CONCLUSIONS SECTION ===
-show_conclusions(filtered_data, year_range, selected_countries, selected_sector)
-
-# === SECTIONS INFORMATIVES ===
-
-st.markdown("### :microscope: Data quality & limitations")
-st.info("""
-- **Eye lens**: Sensitive organ to radiation
-- **Equivalent dose**: Measured in Sieverts (Sv)
-- **Monitored workers**: Occupationally exposed staff
-- **Sectors**: Medical (radiology), Nuclear (facilities)
-- **Missing data**: Marked by empty values (—)
-""")
-
-st.markdown("### :bulb: Key insights")
-if not filtered_data.empty:
-    insights = f"""
-    - **Period analysed**: {year_range[0]} to {year_range[1]}
-    - **Selected countries**: {', '.join(selected_countries)}
-    - **Sector**: {selected_sector}
-    - **Mean collective dose**: {filtered_data['collective_dose_total'].mean():.3f} Sv
-    - **Number of workers**: {int(filtered_data['total_workers_number'].sum()):,}
-    """
-    st.success(insights)
-else:
-    st.warning(":warning: No data matching the selected filters")
-
-st.markdown("---")
-st.caption("Tableau de bord créé avec Streamlit | Données: Dosimétrie Cristallin Yeux")
+show_resume(filtered_data, year_range, selected_countries, selected_sector)
+show_conclusions()

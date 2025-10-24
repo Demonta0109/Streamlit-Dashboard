@@ -56,4 +56,6 @@ def show_deep_dives(filtered_data):
     else:
         st.warning(":x: No data for the selected period")
 
+    st.markdown("As we can see, `France` and `Germany` have a really high number of monitored workers but also a relatively low average monitored dose, indicating effective radiation safety measures in place.")
+    st.markdown("In contrast, countries like `Hungary` and `Finland` show higher average monitored doses, suggesting potential areas for improvement in radiation protection practices.")
     st.markdown("---")
