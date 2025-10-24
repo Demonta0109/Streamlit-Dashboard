@@ -19,20 +19,13 @@ Files of interest
 
 Quick start (PowerShell)
 
-1. Create and activate a virtual environment (recommended):
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
-
-2. Install dependencies
+1. Install dependencies
 
 ```powershell
 pip install -r requirements.txt
 ```
 
-3. Run the Streamlit app
+2. Run the Streamlit app
 
 ```powershell
 streamlit run app.py
