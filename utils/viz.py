@@ -5,6 +5,8 @@ import altair as alt
 import plotly.graph_objects as go
 import plotly.express as px
 
+from utils.geo import get_coord
+
 
 def line_chart(data):
     """Create a line chart showing the evolution of collective dose over time.
@@ -88,18 +90,11 @@ def map_chart(data):
         st.warning("No data available for the map")
         return
     
-    # Add GPS coordinates for each country
-    country_coords = {
-        'France': (46.2276, 2.2137),
-        'Germany': (51.1657, 10.4515),
-        'Greece': (39.0742, 21.8243),
-        'Lithuania': (55.1694, 23.8813)
-    }
-    
-    # Préparer les données
+    # Prepare coordinates using centralised mapping (utils.geo.get_coord)
     map_data = data.copy()
-    map_data['latitude'] = map_data['country'].map(lambda x: country_coords.get(x, (0, 0))[0])
-    map_data['longitude'] = map_data['country'].map(lambda x: country_coords.get(x, (0, 0))[1])
+    map_data[['latitude', 'longitude']] = map_data['country'].apply(
+        lambda c: pd.Series(get_coord(c))
+    )
     
     # Aggregate by country to avoid duplicates
     map_agg = map_data.groupby(['country', 'latitude', 'longitude']).agg({
@@ -111,8 +106,9 @@ def map_chart(data):
     map_agg['collective_dose_total'] = map_agg['collective_dose_total'].round(3)
     map_agg['average_dose_monitored'] = map_agg['average_dose_monitored'].round(3)
 
-    # Vérifier qu'il y a des données avec coordonnées valides
-    if (map_agg['latitude'] == 0).all() and (map_agg['longitude'] == 0).all():
+    # Drop rows without valid coordinates (we can't map them)
+    map_agg = map_agg.dropna(subset=['latitude', 'longitude'])
+    if map_agg.empty:
         st.warning("No valid coordinates for the selected countries")
         return
     
@@ -147,9 +143,9 @@ def map_chart(data):
         # Échelle: 10k - 120k m
         map_agg['radius'] = map_agg['collective_dose_total'] / max_dose * 110000 + 10000
 
-    # Centre initial de la carte
-    center_lat = map_agg['latitude'].replace(0, np.nan).mean()
-    center_lon = map_agg['longitude'].replace(0, np.nan).mean()
+    # Centre initial de la carte (mean of available points)
+    center_lat = map_agg['latitude'].mean()
+    center_lon = map_agg['longitude'].mean()
     if pd.isna(center_lat) or pd.isna(center_lon):
         center_lat, center_lon = 50.0, 10.0
 

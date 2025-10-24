@@ -3,6 +3,8 @@ import pandas as pd
 from utils.io import load_data
 from utils.prep import make_tables
 from utils.viz import line_chart, bar_chart, map_chart
+from sections.intro import intro_section
+from sections.overview import overview_section
 
 st.set_page_config(page_title="Data Storytelling Dashboard - Dosimetry", layout="wide")
 
@@ -16,6 +18,9 @@ st.title(":bar_chart: Dosimetry - Radiation Exposure")
 st.caption("Source: Exposition professionnelle aux rayonnements ionisants en Europe - DataGouv.fr - Licence Ouverte")
 
 raw, tables = get_data()
+
+# === OVERVIEW SECTION ===
+overview_section()
 
 # === SIDEBAR - FILTERS ===
 with st.sidebar:
@@ -41,25 +46,30 @@ with st.sidebar:
         help="Select the period to analyse"
     )
     
-    # Sector filter
-    sectors = ['ALL MONITORED WORKERS', 'MEDICAL FIELD', 'NUCLEAR FIELD', 'INTERVENTIONAL RADIOLOGY']
+    # Sector filter (allow an explicit 'All' option)
+    sectors = ['All', 'ALL MONITORED WORKERS', 'MEDICAL FIELD', 'NUCLEAR FIELD', 'INTERVENTIONAL RADIOLOGY']
     selected_sector = st.selectbox(
         "Sector",
         sectors,
-        help="Choose the sector to analyse"
+        index=0,
+        help="Choose the sector to analyse (or 'All' to include every sector)"
     )
     
     st.markdown("---")
     st.markdown("### :pushpin: About")
     st.info("This dashboard visualises radiation exposure data for the eye lens across countries and sectors.")
 
+
 # === APPLY FILTERS ===
-filtered_data = raw[
+mask = (
     (raw['country'].isin(selected_countries)) &
     (raw['year'] >= year_range[0]) &
-    (raw['year'] <= year_range[1]) &
-    (raw['sector'] == selected_sector)
-].copy()
+    (raw['year'] <= year_range[1])
+)
+if selected_sector != 'All':
+    mask &= (raw['sector'] == selected_sector)
+
+filtered_data = raw[mask].copy()
 
 # === KPI ROW ===
 st.markdown("### :chart_with_upwards_trend: Key indicators")
@@ -92,11 +102,16 @@ with c3:
 
 st.markdown("---")
 
+
+
+
+
 # === VISUALISATIONS ===
 
 # 1. Trends over time
 st.subheader(":calendar: Dose time series")
-timeseries_filtered = filtered_data[filtered_data['sector'] == selected_sector].groupby('year').agg({
+# Use filtered_data directly (it already respects the 'All' selection)
+timeseries_filtered = filtered_data.groupby('year').agg({
     'collective_dose_total': 'sum',
     'average_dose_monitored': 'mean',
     'total_workers_number': 'sum'
@@ -111,7 +126,8 @@ st.markdown("---")
 
 # 2. Compare regions (countries)
 st.subheader(":globe_with_meridians: Comparison by country")
-by_country_filtered = filtered_data[filtered_data['sector'] == selected_sector].groupby('country').agg({
+# Use filtered_data directly (it already respects the 'All' selection)
+by_country_filtered = filtered_data.groupby('country').agg({
     'collective_dose_total': 'sum',
     'average_dose_monitored': 'mean',
     'average_dose_exposed': 'mean',
@@ -127,7 +143,8 @@ st.markdown("---")
 
 # 3. Map view
 st.subheader(":world_map: Map view")
-geo_filtered = filtered_data[filtered_data['sector'] == selected_sector].copy()
+# Use filtered_data directly (it already respects the 'All' selection)
+geo_filtered = filtered_data.copy()
 
 if not geo_filtered.empty:
     map_chart(geo_filtered)

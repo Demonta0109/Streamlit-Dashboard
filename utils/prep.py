@@ -57,18 +57,13 @@ def make_tables(df_raw):
     }).reset_index().sort_values(['country', 'year'])
     tables['by_country_year'] = by_country_year
     
-    # 5. Geographic data (approximation using dummy/centroid coordinates for mapping)
-    # Add approximate GPS coordinates for each country
-    country_coords = {
-        'France': (46.2276, 2.2137),
-        'Germany': (51.1657, 10.4515),
-        'Greece': (39.0742, 21.8243),
-        'Lithuania': (55.1694, 23.8813)
-    }
-    
+    # 5. Geographic data: use centralised country coordinate mapping
+    from utils.geo import get_coord
+
     geo_data = df_raw[df_raw['sector'] == 'ALL MONITORED WORKERS'].copy()
-    geo_data['latitude'] = geo_data['country'].map(lambda x: country_coords.get(x, (0, 0))[0])
-    geo_data['longitude'] = geo_data['country'].map(lambda x: country_coords.get(x, (0, 0))[1])
+    geo_data[['latitude', 'longitude']] = geo_data['country'].apply(lambda c: pd.Series(get_coord(c)))
     geo_data = geo_data.rename(columns={'collective_dose_total': 'value'})
+    # Keep rows even if coordinates are missing; consumers (viz.map_chart)
+    # will drop entries without coords when rendering the map.
     tables['geo'] = geo_data[['country', 'year', 'latitude', 'longitude', 'value', 'average_dose_monitored']]
     return tables
