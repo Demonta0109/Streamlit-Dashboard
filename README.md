@@ -9,13 +9,13 @@ The app was developed to load CSV files placed in the `data/` folder and provide
 - interactive map view (pydeck) with scatter points and a colour legend showing average monitored dose
 
 Files of interest
-- `app.py` — main Streamlit application
-- `data/` — folder containing CSV dataset(s). The app prefers `corp_entier.csv` and falls back to `cristallin_yeux.csv`.
-- `utils/io.py` — data loader and parser
-- `utils/prep.py` — data preparation and aggregation
-- `utils/viz.py` — plotting functions (line, bar, map)
-- `utils/geo.py` — centralised country -> (lat, lon) mapping used by the map
-- `sections/` — informational text sections for the dashboard
+- `app.py` - main Streamlit application
+- `data/` - folder containing CSV dataset(s). The app prefers `corp_entier.csv` and falls back to `cristallin_yeux.csv`.
+- `utils/io.py` - data loader and parser
+- `utils/prep.py` - data preparation and aggregation
+- `utils/viz.py` - plotting functions (line, bar, map)
+- `utils/geo.py` - centralised country -> (lat, lon) mapping used by the map
+- `sections/` - informational text sections for the dashboard
 
 Quick start (PowerShell)
 
