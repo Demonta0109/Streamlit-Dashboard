@@ -126,7 +126,7 @@ def map_chart(data):
     min_avg = map_agg['average_dose_monitored'].min()
     max_avg = map_agg['average_dose_monitored'].max()
     range_avg = max_avg - min_avg if max_avg != min_avg else 1.0
-
+    
     def avg_to_color(v):
         # Normaliser v entre 0 et 1
         norm = (v - min_avg) / range_avg
@@ -135,7 +135,8 @@ def map_chart(data):
         g = int(120 * (1 - norm) + 60 * norm)
         b = int(200 * (1 - norm))
         return [r, g, b, 180]
-
+    
+    map_agg['average_dose_monitored'] = map_agg['average_dose_monitored'].fillna(0)
     map_agg['color'] = map_agg['average_dose_monitored'].apply(lambda x: avg_to_color(x))
 
     # Calculer un rayon visuel (en mètres) proportionnel à la dose
